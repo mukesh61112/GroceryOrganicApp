@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+
+    tools:context=".fragments.RegisterFragment">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:verticalScrollbarPosition="defaultPosition"
+        android:scrollbars="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:scrollbars="vertical">
+
+
+            <EditText
+              android:layout_marginTop="20dp"
+                android:id="@+id/username"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/custom_input"
+                android:drawableStart="@drawable/person_cutom_input"
+                android:drawablePadding="5dp"
+                android:ems="10"
+                android:alpha=".5"
+                android:hint="Username"
+                android:inputType="textPersonName"
+                android:padding="5dp"
+                />
+         <!--   <EditText
+
+                android:id="@+id/firstname"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/custom_input"
+                android:drawableStart="@drawable/person_cutom_input"
+                android:drawablePadding="5dp"
+                android:ems="10"
+                android:hint="FirstName"
+                android:inputType="textPersonName"
+                android:padding="5dp"
+                />
+
+            <EditText
+                android:id="@+id/lastname"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/custom_input"
+                android:drawableStart="@drawable/person_cutom_input"
+                android:ems="10"
+                android:layout_gravity="center_horizontal"
+                android:drawablePadding="5dp"
+                android:padding="5dp"
+                android:inputType="textPersonName"
+                android:hint="LastName"
+                />
+             -->
+            <EditText
+                android:id="@+id/email"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:alpha=".5"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:background="@drawable/custom_input"
+                android:drawableStart="@drawable/email_custom_input"
+                android:drawablePadding="5dp"
+                android:padding="5dp"
+                android:ems="10"
+                android:hint="Email"
+                android:inputType="textPersonName"
+                />
+
+            <EditText
+                android:id="@+id/password"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_input"
+                android:drawableStart="@drawable/lock_cutom_input"
+                android:drawablePadding="5dp"
+                android:ems="10"
+                android:alpha=".5"
+                android:layout_gravity="center_horizontal"
+                android:hint="Password"
+                android:inputType="textPersonName"
+                android:padding="5dp"
+                />
+
+            <EditText
+                android:id="@+id/repassword"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/custom_input"
+                android:drawableStart="@drawable/lock_cutom_input"
+                android:drawablePadding="5dp"
+                android:padding="5dp"
+                android:ems="10"
+                android:alpha=".5"
+                android:layout_gravity="center_horizontal"
+                android:hint="Re-Enter Password"
+                android:inputType="textPersonName"
+                />
+
+            <Button
+                android:id="@+id/register"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/custom_login_register_button"
+
+                android:text="Register"
+                />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+
+                    android:layout_marginStart="97dp"
+                    android:layout_marginEnd="91dp"
+                    android:background="@drawable/custom_choose_image"
+                    android:src="@drawable/ic_phone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/imageView4"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0" />
+
+                <ImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+
+                    android:background="@drawable/custom_choose_image"
+                    android:src="@drawable/google"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0"
+                    tools:layout_editor_absoluteX="248dp" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

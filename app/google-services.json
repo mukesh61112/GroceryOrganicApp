@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "554470856700",
+    "project_id": "organicgroceryapp",
+    "storage_bucket": "organicgroceryapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:554470856700:android:990c0ebd8de48ef4228479",
+        "android_client_info": {
+          "package_name": "com.example.groceryorganicapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "554470856700-d904ppbafmjnrhupfob8rirui6i5adfn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBeWiC-ejiOf20VZM2LnQuHBtsxJA7L6xk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "554470856700-d904ppbafmjnrhupfob8rirui6i5adfn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
