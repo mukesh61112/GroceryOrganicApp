@@ -2,65 +2,354 @@ package com.example.groceryorganicapp.fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.groceryorganicapp.R;
+import com.example.groceryorganicapp.adapters.DairyAdapter;
+import com.example.groceryorganicapp.adapters.FruitsAdapter;
+import com.example.groceryorganicapp.adapters.SearchRVAdapter;
+import com.example.groceryorganicapp.adapters.VegetablesAdapter;
+import com.example.groceryorganicapp.models.AddToCart;
+import com.example.groceryorganicapp.models.SeachRVModel;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link SearchFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+import java.util.List;
+
 public class SearchFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    RecyclerView orgoSerchProRv;
+    SeachRVModel seachRVModel;
+    SearchRVAdapter searchRVAdapter;
+    VegetablesAdapter vegetablesAdapter;
+    FruitsAdapter fruitsAdapter;
+    DairyAdapter dairyAdapter;
+    List<SeachRVModel> searchproList;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+
+    ImageView veg,fruit,dairy;
+    boolean vegb=false,fruitb=false,dairyb=false;
+Button addToCart;
+
+    FirebaseFirestore firebaseFirestore;
+
+    String type=null;
+    public SearchFragment(String type) {
+        this.type=type;
+    }
 
     public SearchFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SearchFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static SearchFragment newInstance(String param1, String param2) {
-        SearchFragment fragment = new SearchFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_search, container, false);
+        View view=inflater.inflate(R.layout.fragment_search, container, false);
+
+
+
+        findViewById(view);
+        imageOnClick();
+       setAllProRv();
+        addToCartClick();
+        return view;
     }
+    public void findViewById(View v)
+    {
+        orgoSerchProRv=v.findViewById(R.id.searchRV);
+        firebaseFirestore=FirebaseFirestore.getInstance();
+        veg=v.findViewById(R.id.vegetables);
+        fruit=v.findViewById(R.id.fruits);
+        dairy=v.findViewById(R.id.dairyproducts);
+        addToCart=v.findViewById(R.id.addToCart);
+    }
+    private void imageOnClick()
+    {
+        fruit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fruitb=true;
+                searchproList=new ArrayList<>();
+                fruitsAdapter=new FruitsAdapter(searchproList,getContext());
+
+                LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
+                orgoSerchProRv.setLayoutManager(linearLayoutManager);
+                orgoSerchProRv.setAdapter(fruitsAdapter);
+
+                getFruitsFromFirestore();
+            }
+        });
+        veg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                vegb=true;
+                searchproList=new ArrayList<>();
+                vegetablesAdapter=new VegetablesAdapter(searchproList,getContext());
+
+                LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
+                orgoSerchProRv.setLayoutManager(linearLayoutManager);
+                orgoSerchProRv.setAdapter( vegetablesAdapter);
+                getVegetablesFromFirestore();
+            }
+        });
+        dairy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dairyb=true;
+                searchproList=new ArrayList<>();
+                dairyAdapter=new DairyAdapter(searchproList,getContext());
+
+                LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
+                orgoSerchProRv.setLayoutManager(linearLayoutManager);
+                orgoSerchProRv.setAdapter( dairyAdapter);
+                getDairyProFromFirestore();
+            }
+        });
+    }
+    private void setAllProRv()
+    {
+//        setRv();
+//        if(type!=null)
+//           getOrgoProSearchDatafromFirestoreInProductsTypeRV(type);
+//        else
+
+
+        if(type=="Vegetables " || type==null)
+        {
+            vegb=true;
+            searchproList=new ArrayList<>();
+            vegetablesAdapter=new VegetablesAdapter(searchproList,getContext());
+
+            LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
+            orgoSerchProRv.setLayoutManager(linearLayoutManager);
+            orgoSerchProRv.setAdapter( vegetablesAdapter);
+            getVegetablesFromFirestore();
+        }
+        else if(type=="Fruits")
+        {
+            fruitb=true;
+            searchproList=new ArrayList<>();
+            fruitsAdapter=new FruitsAdapter(searchproList,getContext());
+
+            LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
+            orgoSerchProRv.setLayoutManager(linearLayoutManager);
+            orgoSerchProRv.setAdapter(fruitsAdapter);
+
+            getFruitsFromFirestore();
+        }
+        else if(type=="DairyProducts")
+        {
+            dairyb=true;
+            searchproList=new ArrayList<>();
+            dairyAdapter=new DairyAdapter(searchproList,getContext());
+
+            LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
+            orgoSerchProRv.setLayoutManager(linearLayoutManager);
+            orgoSerchProRv.setAdapter( dairyAdapter);
+            getDairyProFromFirestore();
+        }
+
+    }
+
+    private  void setRv(){
+
+
+        searchproList=new ArrayList<>();
+        searchRVAdapter=new SearchRVAdapter(searchproList,getContext());
+
+        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
+        orgoSerchProRv.setLayoutManager(linearLayoutManager);
+        orgoSerchProRv.setAdapter(searchRVAdapter);
+        //searchproList.add(new SeachRVModel("https://th.bing.com/th/id/OIP.XfSd-YNo58R6hYM3lTSoDQHaJl?pid=ImgDet&rs=1","asdf","20"));
+
+
+    }
+    private void getVegetablesFromFirestore(){
+
+
+        firebaseFirestore.collection("Vegetables ").get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        // after getting the data we are calling on success method
+                        // and inside this method we are checking if the received
+                        // query snapshot is empty or not.
+                        if (!queryDocumentSnapshots.isEmpty()) {
+                            // if the snapshot is not empty we are hiding our
+                            // progress bar and adding our data in a list.
+                            List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
+                            for (DocumentSnapshot d : list) {
+                                // after getting this list we are passing that
+
+                                SeachRVModel seachRVModel=d.toObject(SeachRVModel.class);
+
+
+                                // and we will pass this object class
+                                // inside our arraylist which we have
+                                // created for recycler view.
+                                searchproList.add(seachRVModel);
+                            }
+                            // after adding the data to recycler view.
+                            // we are calling recycler view notifyDataSetChanged
+                            // method to notify that data has been changed in recycler view.
+                            vegetablesAdapter.notifyDataSetChanged();
+                        } else {
+                            // if the snapshot is empty we are
+                            // displaying a toast message.
+                            Toast.makeText(getContext(), "No data found in Database", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // if we do not get any data or any error we are displaying
+                        // a toast message that we do not get any data
+                        Toast.makeText(getContext(), "Fail to get the data.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+    private void getFruitsFromFirestore(){
+
+
+        firebaseFirestore.collection("Fruits").get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        // after getting the data we are calling on success method
+                        // and inside this method we are checking if the received
+                        // query snapshot is empty or not.
+                        if (!queryDocumentSnapshots.isEmpty()) {
+                            // if the snapshot is not empty we are hiding our
+                            // progress bar and adding our data in a list.
+                            List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
+                            for (DocumentSnapshot d : list) {
+                                // after getting this list we are passing that
+
+                                SeachRVModel seachRVModel=d.toObject(SeachRVModel.class);
+
+
+                                // and we will pass this object class
+                                // inside our arraylist which we have
+                                // created for recycler view.
+                                searchproList.add(seachRVModel);
+                            }
+                            // after adding the data to recycler view.
+                            // we are calling recycler view notifyDataSetChanged
+                            // method to notify that data has been changed in recycler view.
+                            fruitsAdapter.notifyDataSetChanged();
+                        } else {
+                            // if the snapshot is empty we are
+                            // displaying a toast message.
+                            Toast.makeText(getContext(), "No data found in Database", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // if we do not get any data or any error we are displaying
+                        // a toast message that we do not get any data
+                        Toast.makeText(getContext(), "Fail to get the data.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+    private void getDairyProFromFirestore(){
+
+
+        firebaseFirestore.collection("DairyProducts").get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        // after getting the data we are calling on success method
+                        // and inside this method we are checking if the received
+                        // query snapshot is empty or not.
+                        if (!queryDocumentSnapshots.isEmpty()) {
+                            // if the snapshot is not empty we are hiding our
+                            // progress bar and adding our data in a list.
+                            List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
+                            for (DocumentSnapshot d : list) {
+                                // after getting this list we are passing that
+
+                                SeachRVModel seachRVModel=d.toObject(SeachRVModel.class);
+
+
+                                // and we will pass this object class
+                                // inside our arraylist which we have
+                                // created for recycler view.
+                                searchproList.add(seachRVModel);
+                            }
+                            // after adding the data to recycler view.
+                            // we are calling recycler view notifyDataSetChanged
+                            // method to notify that data has been changed in recycler view.
+                            dairyAdapter.notifyDataSetChanged();
+                        } else {
+                            // if the snapshot is empty we are
+                            // displaying a toast message.
+                            Toast.makeText(getContext(), "No data found in Database", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // if we do not get any data or any error we are displaying
+                        // a toast message that we do not get any data
+                        Toast.makeText(getContext(), "Fail to get the data.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+  private void addToCartClick()
+  {
+      addToCart.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View view) {
+
+              List<AddToCart> list=new ArrayList<>();
+              List<AddToCart> veg=new ArrayList<>();
+           List<AddToCart> frt=new ArrayList<>();
+           List<AddToCart> dry=new ArrayList<>();
+           if(vegb)
+               veg=vegetablesAdapter.getVegAddToCart();
+           if(fruitb)
+               frt=fruitsAdapter.getFrutAddToCart();
+           if(dairyb)
+               dry=dairyAdapter.getDairyAddToCart();
+
+
+
+           if(veg.size()>0)
+               list.addAll(veg);
+           if(frt.size()>0)
+              list.addAll(frt);
+           if(dry.size()>0)
+              list.addAll(dry);
+
+           List<AddToCart> allList = new ArrayList<>(list);
+              if(allList.size()>0)
+              {
+                  AppCompatActivity activity =(AppCompatActivity)view.getContext();
+
+                  activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView,new PaymentFragment(allList)).addToBackStack("k").commit();
+              }
+              else{
+                  Toast.makeText(getContext(),"please add some organic products",Toast.LENGTH_SHORT).show();
+              }
+
+          }
+      });
+  }
 }

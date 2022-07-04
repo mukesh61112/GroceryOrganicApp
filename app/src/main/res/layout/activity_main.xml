@@ -22,12 +22,15 @@
             app:navGraph="@navigation/nav_fcv"
             android:layout_width="match_parent"
             android:layout_weight="1"
+
             android:layout_height="match_parent" />
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomnavigation"
             android:layout_width="match_parent"
             app:menu="@menu/bottom_navi_menu"
-            android:layout_height="60dp"/>
+            android:scrollbarAlwaysDrawVerticalTrack="false"
+             android:layout_gravity="bottom"
+            android:layout_height="50dp"/>
     </LinearLayout>
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigation_view"

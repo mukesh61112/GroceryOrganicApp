@@ -1,5 +1,7 @@
 package com.example.groceryorganicapp.fragments;
 
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -70,6 +72,7 @@ public class RegisterFragment<gmail> extends Fragment {
         String email = gmail.getText().toString();
         String passw = password.getText().toString();
         String repass = repassword.getText().toString();
+        Uri img=null;
         if (TextUtils.isEmpty(user)) {
             username.setError("please enter username");
             return;
@@ -94,7 +97,7 @@ public class RegisterFragment<gmail> extends Fragment {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(task.isSuccessful()){
-                        LoginRegiUserModel obj=new LoginRegiUserModel(user,email,repass);
+                        LoginRegiUserModel obj=new LoginRegiUserModel(user,email,repass,img);
                         String id=task.getResult().getUser().getUid();
 
                         loginRegiReference.child("Users").child(id).setValue(obj);

@@ -1,14 +1,34 @@
 package com.example.groceryorganicapp.models;
 
+import android.graphics.Bitmap;
+import android.net.Uri;
+
 public class LoginRegiUserModel {
     String username;
     String email;
     String password;
+    Uri img;
 
-    public LoginRegiUserModel(String username, String email, String password) {
+    public      Uri getImg() {
+        return img;
+    }
+
+    public void setImg(     Uri img) {
+        this.img = img;
+    }
+
+    public LoginRegiUserModel(String username, String email, String password,      Uri img) {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.img=img;
+    }
+
+    public LoginRegiUserModel() {
+    }
+
+    public LoginRegiUserModel(Uri img) {
+        this.img = img;
     }
 
     public String getUsername() {

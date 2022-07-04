@@ -5,4 +5,5 @@
     <string name="accout">account</string>
     <string name="nav_open" />
     <string name="nav_close" />
+    <string name="search">Search</string>
 </resources>

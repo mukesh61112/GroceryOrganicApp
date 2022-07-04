@@ -1,28 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:id="@+id/account"
-        android:title="@string/accout"
+    <item android:id="@+id/t_m_search"
+        android:title="@string/search"
         android:orderInCategory="1"
         app:showAsAction="always"
-        android:icon="@drawable/baseline_account_circle_black_24dp">
-        <menu>
-            <item
-                android:id="@+id/java"
-                android:title="Java" />
+        android:icon="@drawable/ic_search">
 
-            <item
-                android:id="@+id/kotlin"
-                android:title="Kotlin" />
-
-            <item
-                android:id="@+id/android"
-                android:title="Android" />
-
-            <item
-                android:id="@+id/react_native"
-                android:title="React Native" />
-        </menu>
     </item>
 
 

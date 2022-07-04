@@ -1,15 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.SearchFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
+        android:id="@+id/li"
+        android:layout_width="match_parent"
+        android:layout_height="51dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp"
+      >
+
+        <ImageView
+            android:id="@+id/vegetables"
+            android:layout_width="90dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:layout_marginStart="5dp"
+            android:background="@drawable/searchbar"
+            android:src="@drawable/vegetable"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="5dp" />
+
+        <ImageView
+            android:id="@+id/fruits"
+            android:layout_width="90dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:background="@drawable/searchbar"
+            android:src="@drawable/frui"
+            android:layout_marginStart="5dp"
+            tools:layout_editor_absoluteX="108dp"
+            tools:layout_editor_absoluteY="5dp" />
+
+        <ImageView
+            android:id="@+id/dairyproducts"
+            android:layout_width="90dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:layout_marginStart="5dp"
+            android:layout_gravity="center"
+            android:background="@drawable/searchbar"
+            android:src="@drawable/dairy_products"
+            tools:layout_editor_absoluteX="209dp"
+            tools:layout_editor_absoluteY="5dp" />
+        <ImageView
+            android:id="@+id/offers"
+            android:layout_width="90dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_gravity="center"
+            android:background="@drawable/searchbar"
+            android:src="@drawable/offer"
+            tools:layout_editor_absoluteX="209dp"
+            tools:layout_editor_absoluteY="5dp" />
+
+     <!--   <EditText
+            android:id="@+id/searchbar"
+            android:layout_width="110dp"
+            android:layout_height="50dp"
+            android:background="@drawable/searchbar"
+            android:drawableStart="@drawable/ic_search_searchbar"
+            android:ems="10"
+            android:layout_weight="1"
+            android:hint="search"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:inputType="textPersonName"
+            android:padding="10dp"
+            android:textColorHint="@color/appColor" -->
+
+
+          />
+    </LinearLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/searchRV"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_weight="1"
+        android:layout_marginTop="5dp"
+       />
 
-</FrameLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/addToCart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:text="Add To Cart" />
+    </LinearLayout>
+
+
+</LinearLayout>
